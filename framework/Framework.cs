@@ -3,7 +3,7 @@ using simple_rest.framework.database;
 using MySql.Data.MySqlClient;
 using simple_rest.domain.query;
 using simple_rest.usecase;
-using simple_rest.Controllers;
+using simple_rest.application.controllers;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace simple_rest.framework;

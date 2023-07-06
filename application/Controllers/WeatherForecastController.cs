@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using simple_rest.usecase;
 
-namespace simple_rest.Controllers;
+namespace simple_rest.application.controllers;
 
 [ApiController]
 [Route("api/[controller]")]
