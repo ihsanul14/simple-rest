@@ -1,0 +1,78 @@
+.env
+# Visual Studio / Rider / ReSharper
+.vs/
+*.sln.ide
+*.suo
+*.ntvs*
+*.nupkg
+*.user
+*.vspscc
+*_i.c
+*_p.c
+*.pidb
+*.log
+*.cache
+*.tmp
+*.obj
+*.dll
+*.pdb
+*.exe
+*.bak
+*.vshost.*
+*.resharper*
+*.resharper.user
+_ReSharper.*
+
+# NuGet
+packages/
+*.nupkg
+*.snupkg
+*.props
+*.targets
+*.nuget.props
+*.nuget.targets
+*.config
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+
+# Roslyn cache directories
+*.ide/
+
+# MSTest test Results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+
+# NCrunch
+*.ncrunch*
+.*crunch*.local.xml
+nCrunchTemp_*
+
+# Installshield output folder
+[Ee]xpress/
+
+# DocProject
+[Dd]oc[Ss]tudio/
+[Rr]eferenced[Dd] Assemblies/
+
+# Telerik UI for WinForms
+__*.*
+
+
+# GhostDoc plugin setting file
+*.GhostDoc.xml
+
+# Local History for Visual Studio
+.localhistory/
+
+# Rider generated files
+.idea/
+*.sln.DotSettings.user
