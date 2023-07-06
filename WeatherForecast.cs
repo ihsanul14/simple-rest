@@ -8,6 +8,11 @@ public class WeatherForecast
 
     public int Nomor {get; set;}
 
-    public DateOnly CreatedAt { get; set; }
-    public DateOnly UpdatedAt { get; set; }
+    public DateTime? CreatedAt { get; set; }
+    public DateTime? UpdatedAt { get; set; }
+
+    public static implicit operator List<object>(WeatherForecast v)
+    {
+        throw new NotImplementedException();
+    }
 }
