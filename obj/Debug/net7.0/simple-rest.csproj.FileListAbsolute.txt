@@ -52,3 +52,5 @@ D:\C#\simple-rest\bin\Debug\net7.0\Ubiety.Dns.Core.dll
 D:\C#\simple-rest\bin\Debug\net7.0\Zstandard.Net.dll
 D:\C#\simple-rest\bin\Debug\net7.0\Renci.SshNet.dll
 D:\C#\simple-rest\bin\Debug\net7.0\SshNet.Security.Cryptography.dll
+D:\C#\simple-rest\bin\Debug\net7.0\FluentValidation.dll
+D:\C#\simple-rest\bin\Debug\net7.0\Newtonsoft.Json.dll

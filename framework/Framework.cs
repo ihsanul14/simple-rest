@@ -9,10 +9,9 @@ using Microsoft.Extensions.DependencyInjection;
 namespace simple_rest.framework;
 
 public class Framework{
-    private static string[] args;
 
     public static void Run(){
-        Config.Load("./.env");
+        Config.Load("./appsettings.Development.json");
         Database db = new Database();
         (MySqlConnection? connection, Exception? err) = db.GetConnection();
         if (err != null){
@@ -22,7 +21,7 @@ public class Framework{
         if (connection != null){
             Query query = new Query(connection);
             Usecase useCase = new Usecase(query);
-            var builder = WebApplication.CreateBuilder(args);
+            var builder = WebApplication.CreateBuilder();
             builder.Services.AddControllers();
             builder.Services.AddScoped<MySqlConnection>(provider => connection);
             builder.Services.AddScoped<IQuery, Query>(provider => query);
