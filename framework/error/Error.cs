@@ -7,6 +7,7 @@ namespace simple_rest.framework.error;
 public class Error
 {
     public static IActionResult StatusError(Exception err){
+        Console.WriteLine(err.Message);
         Response res = new Response();
         res.code = (int)StatusCodes.Status500InternalServerError;
         res.message = err.Message;

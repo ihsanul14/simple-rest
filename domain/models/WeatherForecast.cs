@@ -1,7 +1,6 @@
 using System.Text.Json.Serialization;
 using FluentValidation;
 
-
 namespace simple_rest.domain.models;
 
 public class WeatherForecast
@@ -10,15 +9,10 @@ public class WeatherForecast
 
     public string? Nama { get; set; }
 
-    public int Nomor {get; set;}
+    public int? Nomor {get; set;}
 
-    public DateTime? CreatedAt { get; set; }
-    public DateTime? UpdatedAt { get; set; }
-
-    public static implicit operator List<object>(WeatherForecast v)
-    {
-        throw new NotImplementedException();
-    }
+    public DateTime? Created_at { get; set; }
+    public DateTime? Updated_at { get; set; }
 }
 
 public class WeatherForecastValidator

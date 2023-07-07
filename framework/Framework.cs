@@ -1,19 +1,17 @@
 using simple_rest.framework.config;
 using simple_rest.framework.database;
-using MySql.Data.MySqlClient;
 using simple_rest.domain.query;
 using simple_rest.usecase;
-using simple_rest.application.controllers;
-using Microsoft.Extensions.DependencyInjection;
+using System.Data;
 
 namespace simple_rest.framework;
 
 public class Framework{
 
     public static void Run(){
-        Config.Load("./appsettings.Development.json");
+        Config.Load("./config.json");
         Database db = new Database();
-        (MySqlConnection? connection, Exception? err) = db.GetConnection();
+        (IDbConnection? connection, Exception? err) = db.GetConnection();
         if (err != null){
             Console.WriteLine(err);
             Environment.Exit(1);
@@ -23,8 +21,8 @@ public class Framework{
             Usecase useCase = new Usecase(query);
             var builder = WebApplication.CreateBuilder();
             builder.Services.AddControllers();
-            builder.Services.AddScoped<MySqlConnection>(provider => connection);
-            builder.Services.AddScoped<IQuery, Query>(provider => query);
+            builder.Services.AddScoped<IDbConnection>(provider => connection);
+            builder.Services.AddScoped<IWeatherQuery, Query>(provider => query);
             builder.Services.AddScoped<IUsecase, Usecase>(provider => useCase);
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();

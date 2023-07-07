@@ -1,4 +1,3 @@
-.env
 # Visual Studio / Rider / ReSharper
 .vs/
 *.sln.ide
@@ -43,6 +42,7 @@ x86/
 bld/
 [Bb]in/
 [Oo]bj/
+bin/
 
 # Roslyn cache directories
 *.ide/
@@ -76,3 +76,5 @@ __*.*
 # Rider generated files
 .idea/
 *.sln.DotSettings.user
+
+config.json
