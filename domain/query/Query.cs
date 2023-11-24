@@ -8,10 +8,10 @@ using System.Data.SqlClient;
 namespace simple_rest.domain.query;
 
 public interface IWeatherQuery{
-    IEnumerable<WeatherForecast> GetAllData();
-    IEnumerable<WeatherForecast> GetDataById(int id);
-    string Create(WeatherForecast req);
-    string Update(WeatherForecast req);
+    IEnumerable<Project> GetAllData();
+    IEnumerable<Project> GetDataById(int id);
+    string Create(Project req);
+    string Update(Project req);
     string Delete(int id);
 }
 public class Query : IWeatherQuery{
@@ -21,17 +21,17 @@ public class Query : IWeatherQuery{
     }
 
 
-    public IEnumerable<WeatherForecast> GetAllData(){
+    public IEnumerable<Project> GetAllData(){
         string query = "SELECT * FROM testing";
-        return (IEnumerable<WeatherForecast>)Db.Query<WeatherForecast>(query);
+        return (IEnumerable<Project>)Db.Query<Project>(query);
     }
 
-    public IEnumerable<WeatherForecast> GetDataById(int id){
+    public IEnumerable<Project> GetDataById(int id){
         string query = "SELECT * FROM testing WHERE id = @id";
-        return (IEnumerable<WeatherForecast>)Db.Query<WeatherForecast>(query, new{Id= id});
+        return (IEnumerable<Project>)Db.Query<Project>(query, new{Id= id});
     }
 
-    public string Create(WeatherForecast req){
+    public string Create(Project req){
         string query = """
             INSERT INTO testing (nama, nomor, created_at) VALUES (
                 @nama, @nomor, now()
@@ -41,7 +41,7 @@ public class Query : IWeatherQuery{
         return "success create data";
     }
 
-    public string Update(WeatherForecast req){
+    public string Update(Project req){
         var query = "UPDATE testing set nama = @nama, nomor = @nomor, updated_at = now() WHERE id = @id";
         Db.Execute(query, req);
         return $"success update data with id {req.Id}";

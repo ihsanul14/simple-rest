@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace simple_rest.domain.models;
 
-public class WeatherForecast
+public class Project
 {
     public int Id { get; set; }
 
@@ -15,18 +15,18 @@ public class WeatherForecast
     public DateTime? Updated_at { get; set; }
 }
 
-public class WeatherForecastValidator
+public class ProjectValidator
 {
-    public class CreateWeatherForecastRequest: AbstractValidator<WeatherForecast>{
-    public CreateWeatherForecastRequest()
+    public class CreateProjectRequest: AbstractValidator<Project>{
+    public CreateProjectRequest()
     {
         RuleFor(x => x.Nama).NotEmpty();
         RuleFor(x => x.Nomor).GreaterThan(0);
     }
     }
 
-    public class UpdateWeatherForecastRequest: AbstractValidator<WeatherForecast>{
-    public UpdateWeatherForecastRequest()
+    public class UpdateProjectRequest: AbstractValidator<Project>{
+    public UpdateProjectRequest()
     {
         RuleFor(x => x.Id).NotEmpty().GreaterThan(0);
         RuleFor(x => x.Nama).NotEmpty();
@@ -34,8 +34,8 @@ public class WeatherForecastValidator
     }
     }
 
-    public class DeleteWeatherForecastRequest: AbstractValidator<int>{
-    public DeleteWeatherForecastRequest()
+    public class DeleteProjectRequest: AbstractValidator<int>{
+    public DeleteProjectRequest()
     {
         RuleFor(x => x).NotEmpty().GreaterThan(0);
     }
@@ -47,5 +47,5 @@ public class Response{
     public int code {get; set;}
     public string? message {get; set;}
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IEnumerable<WeatherForecast>? data {get; set;}
+    public IEnumerable<Project>? data {get; set;}
 }

@@ -9,7 +9,7 @@ namespace simple_rest.framework.database;
 public class Database : DbContext{
     public (IDbConnection?,Exception?) GetConnection(){ 
         try{
-            IDbConnection dbConnection = new MySqlConnection(Config.DefaultConfig?.GetValue<string>("Database:Mysql_Dialector"));
+            IDbConnection dbConnection = new MySqlConnection(Config.DefaultConfig?.GetValue<string>("Database:MYSQL_DIALECTOR"));
             return (dbConnection, null);
         }   catch(Exception err){
             return (null,err);

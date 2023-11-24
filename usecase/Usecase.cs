@@ -5,10 +5,10 @@ namespace simple_rest.usecase;
 
 public interface IUsecase
 {
-    IEnumerable<WeatherForecast> GetAllData();
-    IEnumerable<WeatherForecast> GetDataById(int id);
-    string Create(WeatherForecast req);
-    string Update(WeatherForecast req);
+    IEnumerable<Project> GetAllData();
+    IEnumerable<Project> GetDataById(int id);
+    string Create(Project req);
+    string Update(Project req);
     string Delete(int id);
 }
 public class Usecase : IUsecase{
@@ -17,19 +17,18 @@ public class Usecase : IUsecase{
         Query = query;
     }
 
-    public IEnumerable<WeatherForecast> GetAllData(){
+    public IEnumerable<Project> GetAllData(){
         return Query.GetAllData();
     }
 
-    public IEnumerable<WeatherForecast> GetDataById(int id){
+    public IEnumerable<Project> GetDataById(int id){
         return Query.GetDataById(id);
     }
 
-    public string Create(WeatherForecast req){
+    public string Create(Project req){
         return Query.Create(req);
     }
-
-        public string Update(WeatherForecast req){
+        public string Update(Project req){
         return Query.Update(req);
     }
         public string Delete(int id){

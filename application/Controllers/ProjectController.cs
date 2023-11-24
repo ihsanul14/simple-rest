@@ -8,21 +8,21 @@ namespace simple_rest.application.controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class WeatherForecastController : ControllerBase
+public class ProjectController : ControllerBase
 {
-    private readonly ILogger<WeatherForecastController> Logger;
+    private readonly ILogger<ProjectController> Logger;
     private readonly IUsecase UseCase;
 
-    public WeatherForecastController(ILogger<WeatherForecastController> logger, IUsecase usecase)
+    public ProjectController(ILogger<ProjectController> logger, IUsecase usecase)
     {
         Logger = logger;
         UseCase = usecase;
     }
 
-    [HttpGet(Name = "GetWeatherForecast")]
+    [HttpGet(Name = "GetProject")]
     public IActionResult Get()
     {
-        IEnumerable<WeatherForecast> res = UseCase.GetAllData();
+        IEnumerable<Project> res = UseCase.GetAllData();
         if (res.Count() == 0){
             return NotFound(new Response{
                 code = (int)HttpStatusCode.NotFound,
@@ -40,7 +40,7 @@ public class WeatherForecastController : ControllerBase
     public IActionResult GetById(int id)
         {
             try{
-                IEnumerable<WeatherForecast> data = UseCase.GetDataById(id);
+                IEnumerable<Project> data = UseCase.GetDataById(id);
                 Response res= new Response();
                 res.code =(int)StatusCodes.Status200OK;
                 res.message = $"success retrive data with id {id}";
@@ -59,9 +59,9 @@ public class WeatherForecastController : ControllerBase
         }
         
     [HttpPost]
-        public IActionResult Create([FromBody] WeatherForecast req)
+        public IActionResult Create([FromBody] Project req)
         {
-            var validation = new WeatherForecastValidator.CreateWeatherForecastRequest(); 
+            var validation = new ProjectValidator.CreateProjectRequest(); 
             if (!validation.Validate(req).IsValid)
             {
                 return BadRequest(new Response{
@@ -82,10 +82,10 @@ public class WeatherForecastController : ControllerBase
         }
         
         [HttpPut("{id}")]
-        public IActionResult Update([FromBody] WeatherForecast req, int id)
+        public IActionResult Update([FromBody] Project req, int id)
         {
             req.Id = id;
-            var validation = new WeatherForecastValidator.UpdateWeatherForecastRequest(); 
+            var validation = new ProjectValidator.UpdateProjectRequest(); 
             if (!validation.Validate(req).IsValid)
             {
                 return BadRequest(new Response{
@@ -107,7 +107,7 @@ public class WeatherForecastController : ControllerBase
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            var validation = new WeatherForecastValidator.DeleteWeatherForecastRequest();
+            var validation = new ProjectValidator.DeleteProjectRequest();
             if (!validation.Validate(id).IsValid)
             {
                 return BadRequest(new Response{
