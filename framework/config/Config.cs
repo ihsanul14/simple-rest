@@ -1,12 +1,20 @@
 namespace simple_rest.framework.config;
 
-public class Config
+public interface IConfig {
+    void Load();
+}
+
+public class Config : IConfig
 {
     public static IConfiguration? DefaultConfig;
-    public static void Load(string filePath)
+    public string FilePath;
+    public Config(string filePath){
+        FilePath = filePath;
+    }
+    public void Load()
     {
         var configBuilder = new ConfigurationBuilder();
-        configBuilder.AddJsonFile(filePath);
+        configBuilder.AddJsonFile(FilePath);
         DefaultConfig = configBuilder.Build();
     }
 }

@@ -1,5 +1,8 @@
 using simple_rest.domain.query;
 using simple_rest.domain.models;
+using System.Data.Entity;
+using Database = simple_rest.framework.database;
+using Moq;
 
 namespace simple_rest.usecase;
 
@@ -13,8 +16,8 @@ public interface IUsecase
 }
 public class Usecase : IUsecase{
     public Query Query { get; set; }
-    public Usecase(Query query){
-        Query = query;
+    public Usecase(Database.Database database){
+        Query = new Query(database.ConnectMySQL());
     }
 
     public IEnumerable<Project> GetAllData(){
@@ -28,10 +31,10 @@ public class Usecase : IUsecase{
     public string Create(Project req){
         return Query.Create(req);
     }
-        public string Update(Project req){
+    public string Update(Project req){
         return Query.Update(req);
     }
-        public string Delete(int id){
+    public string Delete(int id){
         return Query.Delete(id);
     }
 }

@@ -1,25 +1,33 @@
-using Microsoft.AspNetCore.Mvc;
 using MySql.Data.MySqlClient;
 using simple_rest.domain.models;
 
 namespace simple_rest.framework.error;
 
-public class Error
+public interface IError{
+    Response StatusError(Exception err);
+    string GetValidationError(System.Collections.Generic.List<FluentValidation.Results.ValidationFailure> err);
+}
+
+public class Error : IError
 {
-    public static IActionResult StatusError(Exception err){
-        Console.WriteLine(err.Message);
-        Response res = new Response();
-        res.code = (int)StatusCodes.Status500InternalServerError;
-        res.message = err.Message;
+    private readonly ILogger<Error> Logger;
+    public Error(ILogger<Error> logger){
+        Logger = logger;
+    }
+    public Response StatusError(Exception err){
+        Logger.LogError(err.Message);
+        Response res = new()
+        {
+            code = StatusCodes.Status500InternalServerError,
+            message = err.Message
+        };        
         if (err is MySqlException){
             MySqlException? mySqlException = err as MySqlException;
             if (mySqlException?.Number == (int)MySqlErrorCode.DuplicateKeyEntry){
-                res.code = (int)StatusCodes.Status400BadRequest;
+                res.code = StatusCodes.Status400BadRequest;
             }
         }
-        return new JsonResult(res){
-            StatusCode = res.code
-        };
+        return res;
     }
     public string GetValidationError(System.Collections.Generic.List<FluentValidation.Results.ValidationFailure> err){
         string[] errorMessages = new string[err.Count];

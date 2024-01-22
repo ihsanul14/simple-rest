@@ -10,30 +10,38 @@ namespace simple_rest.application.controllers;
 [Route("api/[controller]")]
 public class ProjectController : ControllerBase
 {
-    private readonly ILogger<ProjectController> Logger;
+    private readonly IError IError;
     private readonly IUsecase UseCase;
 
-    public ProjectController(ILogger<ProjectController> logger, IUsecase usecase)
+    public ProjectController(IError error,IUsecase usecase)
     {
-        Logger = logger;
+        IError = error;
         UseCase = usecase;
     }
 
     [HttpGet(Name = "GetProject")]
+    [ProducesResponseType(typeof(Response), 200)]
     public IActionResult Get()
     {
-        IEnumerable<Project> res = UseCase.GetAllData();
-        if (res.Count() == 0){
-            return NotFound(new Response{
-                code = (int)HttpStatusCode.NotFound,
-                message = "no data found",
+        try{
+            IEnumerable<Project> res = UseCase.GetAllData();
+            if (res?.Count() == 0){
+                return NotFound(new Response{
+                    code = (int)HttpStatusCode.NotFound,
+                    message = "no data found",
+                });
+            }
+            return Ok(new Response{
+                code = (int)HttpStatusCode.OK,
+                message = "success retrieve data",
+                data = res,
             });
+        }catch(Exception err){
+            Response res = IError.StatusError(err);
+            return new JsonResult(res){
+                StatusCode = res.code
+            };
         }
-        return (OkObjectResult)Ok(new Response{
-            code = (int)HttpStatusCode.OK,
-            message = "success retrieve data",
-            data = res,
-        });
     }
 
     [HttpGet("{id}")]
@@ -41,12 +49,14 @@ public class ProjectController : ControllerBase
         {
             try{
                 IEnumerable<Project> data = UseCase.GetDataById(id);
-                Response res= new Response();
-                res.code =(int)StatusCodes.Status200OK;
-                res.message = $"success retrive data with id {id}";
-                if (data.Count() == 0)
+                Response res = new()
                 {
-                    res.code = (int)StatusCodes.Status404NotFound;
+                    code = StatusCodes.Status200OK,
+                    message = $"success retrive data with id {id}"
+                };
+                if (data?.Count() == 0)
+                {
+                    res.code = StatusCodes.Status404NotFound;
                     res.message = $"no data found with id {id}";
                     return NotFound(res);
                 }else{
@@ -54,7 +64,10 @@ public class ProjectController : ControllerBase
                     return Ok(res);
                 }
             } catch(Exception err){
-                return Error.StatusError(err);
+                Response res = IError.StatusError(err);
+                return new JsonResult(res){
+                    StatusCode = res.code
+                };
             }
         }
         
@@ -66,17 +79,20 @@ public class ProjectController : ControllerBase
             {
                 return BadRequest(new Response{
                 code = (int)HttpStatusCode.BadRequest,
-                message = new Error().GetValidationError(validation.Validate(req).Errors),
+                message = IError.GetValidationError(validation.Validate(req).Errors),
             });
             }
             try{
                 string message = UseCase.Create(req);
                 return Ok(new Response{
-                    code = (int)StatusCodes.Status200OK,
+                    code = StatusCodes.Status200OK,
                     message = message,
                 });
             } catch(Exception err){
-                return Error.StatusError(err);
+                Response res = IError.StatusError(err);
+                return new JsonResult(res){
+                    StatusCode = res.code
+                };
             }
             
         }
@@ -90,17 +106,20 @@ public class ProjectController : ControllerBase
             {
                 return BadRequest(new Response{
                 code = (int)HttpStatusCode.BadRequest,
-                message = new Error().GetValidationError(validation.Validate(req).Errors),
+                message = IError.GetValidationError(validation.Validate(req).Errors),
             });
             }
             try{
                 string message = UseCase.Update(req);
                 return Ok(new Response{
-                    code = (int)StatusCodes.Status200OK,
+                    code = StatusCodes.Status200OK,
                     message = message,
                 });
             } catch(Exception err){
-                return Error.StatusError(err);
+                Response res = IError.StatusError(err);
+                return new JsonResult(res){
+                    StatusCode = res.code
+                };
             }
         }
 
@@ -112,17 +131,20 @@ public class ProjectController : ControllerBase
             {
                 return BadRequest(new Response{
                 code = (int)HttpStatusCode.BadRequest,
-                message = new Error().GetValidationError(validation.Validate(id).Errors),
+                message = IError.GetValidationError(validation.Validate(id).Errors),
             });
             }
             try{
                 string message = UseCase.Delete(id);
                 return Ok(new Response{
-                    code = (int)StatusCodes.Status200OK,
+                    code = StatusCodes.Status200OK,
                     message = message,
                 });
             } catch(Exception err){
-                return Error.StatusError(err);
+                Response res = IError.StatusError(err);
+                return new JsonResult(res){
+                    StatusCode = res.code
+                };
             }
         }
 }

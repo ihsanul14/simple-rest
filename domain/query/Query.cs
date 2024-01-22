@@ -7,16 +7,16 @@ using System.Data.SqlClient;
 
 namespace simple_rest.domain.query;
 
-public interface IWeatherQuery{
+public interface IProjectQuery{
     IEnumerable<Project> GetAllData();
     IEnumerable<Project> GetDataById(int id);
     string Create(Project req);
     string Update(Project req);
     string Delete(int id);
 }
-public class Query : IWeatherQuery{
-    public IDbConnection Db { get; set; }
-    public Query(IDbConnection mySqlConnection){
+public class Query : IProjectQuery{
+    public IDbConnection? Db { get; set; }
+    public Query(IDbConnection? mySqlConnection){
         Db = mySqlConnection;
     }
 

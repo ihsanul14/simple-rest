@@ -1,18 +1,24 @@
 using simple_rest.framework.config;
-using simple_rest.domain.models;
 using Microsoft.EntityFrameworkCore;
 using MySql.Data.MySqlClient;
 using System.Data;
+using NHibernate.Driver;
 
 namespace simple_rest.framework.database;
 
-public class Database : DbContext{
-    public (IDbConnection?,Exception?) GetConnection(){ 
-        try{
-            IDbConnection dbConnection = new MySqlConnection(Config.DefaultConfig?.GetValue<string>("Database:MYSQL_DIALECTOR"));
-            return (dbConnection, null);
-        }   catch(Exception err){
-            return (null,err);
-        }
+public interface IDatabase{
+    IDbConnection? ConnectMySQL();
+}
+
+public class Database : IDatabase{
+
+    public IDbConnection? MySQL;
+    public Database (){ 
+        MySQL = ConnectMySQL();
+    }
+
+    public IDbConnection? ConnectMySQL(){
+        IDbConnection res = new MySqlConnection(Config.DefaultConfig?.GetValue<string>("Database:MYSQL_DIALECTOR"));
+        return res;
     }
 }
